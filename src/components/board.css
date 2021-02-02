@@ -1,0 +1,14 @@
+.Board {
+  border: 4px solid #98ded9;
+  border-radius: 10px;
+  width: 350px;
+  height: 350px;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.Row {
+  height: 33%;
+}
