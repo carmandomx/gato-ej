@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Board from "./Board";
+import Title from "./Title";
+import History from "./History";
 
 function calculateWinner(board) {
   const winningPositions = [
@@ -24,19 +26,47 @@ function calculateWinner(board) {
 }
 
 const Game = () => {
-  const [board, setBoard] = useState(new Array(9).fill(null)); // null, "X", "O"
+  const [history, setHistory] = useState([new Array(9).fill(null)]); // null, "X", "O"
   const [xIsNext, setXIsNext] = useState(true);
+  const [board, setBoard] = useState(history[history.length - 1]);
+
+  useEffect(() => {
+    setBoard(history[history.length - 1]);
+  }, [history]);
+
   const winner = calculateWinner(board);
 
   const handleSquareChange = (index) => {
+    const copiedHistory = [...history];
     const copiedBoard = [...board];
     if (copiedBoard[index] || winner) return;
 
     copiedBoard[index] = xIsNext ? "X" : "O";
     setXIsNext(!xIsNext);
-    setBoard(copiedBoard);
+    setHistory([...copiedHistory, copiedBoard]);
   };
-  return <Board squares={board} handleClick={handleSquareChange} />;
+
+  const handleReset = () => {
+    setHistory([new Array(9).fill(null)]);
+    setXIsNext(true);
+  };
+
+  const handleChangeBoard = (board) => {
+    setBoard(board);
+  };
+
+  return (
+    <>
+      <div>
+        <Title winner={winner} turn={xIsNext ? "O" : "X"} />
+        <Board squares={board} handleClick={handleSquareChange} />
+        <button onClick={handleReset}>Play Again</button>
+      </div>
+      <div>
+        <History moves={history} handleTimeTravel={handleChangeBoard} />
+      </div>
+    </>
+  );
 };
 
 export default Game;

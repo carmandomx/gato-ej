@@ -5,21 +5,17 @@ const Board = ({ squares, handleClick }) => {
   const handler = (i) => {
     handleClick(i);
   };
-  return (
-    <div className="Board">
-      <Square value={squares[0]} index={0} handleClickOnSquare={handler} />
-      <Square value={squares[1]} index={1} handleClickOnSquare={handler} />
-      <Square value={squares[2]} index={2} handleClickOnSquare={handler} />
 
-      <Square value={squares[3]} index={3} handleClickOnSquare={handler} />
-      <Square value={squares[4]} index={4} handleClickOnSquare={handler} />
-      <Square value={squares[5]} index={5} handleClickOnSquare={handler} />
+  const tiles = squares.map((value, index) => (
+    <Square
+      key={index}
+      value={value}
+      index={index}
+      handleClickOnSquare={handler}
+    />
+  ));
 
-      <Square value={squares[6]} index={6} handleClickOnSquare={handler} />
-      <Square value={squares[7]} index={7} handleClickOnSquare={handler} />
-      <Square value={squares[8]} index={8} handleClickOnSquare={handler} />
-    </div>
-  );
+  return <div className="Board">{tiles}</div>;
 };
 
 export default Board;
